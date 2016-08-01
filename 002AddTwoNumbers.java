@@ -1,6 +1,10 @@
 /**
 * time: 2016-07-31 23:00:00
 * note: The code is redundancy and ugly.
+* 
+* time: 2016-08-01 20:50
+* note: My second version, change logic and improve code
+* main thouht, which is regard the value of null node as 0
 */
 
 /**
@@ -125,5 +129,41 @@ public class Solution {
         }
         
         return ln;
+    }
+}
+
+// solution 2
+public class Solution {
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        ListNode head = new ListNode(0);
+        ListNode last = head;
+        
+        // the carry is 0 when the first two number add 
+        int carry = 0;
+        
+        while (l1 != null || l2 != null) {
+            // the null node represent 0
+            int n1 = l1 != null ? l1.val : 0;
+            int n2 = l2 != null ? l2.val : 0;
+            
+            // sum include number of l1, l2's and carry of previous
+            int sum = n1 + n2 + carry;
+            // current carry
+            carry = sum / 10;
+            
+            last.next = new ListNode(sum % 10);
+            // always point to the last one
+            last = last.next;
+            
+            if (l1 != null) l1 = l1.next;
+            if (l2 != null) l2 = l2.next;
+        }
+        
+        // add to a new carry node at the end of list when the end number carry
+        if (carry != 0) {
+            last.next = new ListNode(carry);
+        }
+        
+        return head.next;
     }
 }
